@@ -11,8 +11,9 @@ type Pokedex struct {
 	Pokemons []Pokemon `json:"pokemon"`
 }
 
-func NewPokedex() (*Pokedex, error) {
-	resp, err := http.Get("http://pokeapi.co/api/v1/pokedex/1/")
+// Return a Pokedex with Pokemon Basic Information (Name and API's URL)
+func GetPokedex() (*Pokedex, error) {
+	resp, err := http.Get(API_URL + "/api/v1/pokedex/1/")
 	if err != nil {
 		return nil, err
 	}

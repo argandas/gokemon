@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// An Ability resource represent a single Pokémon ability
 type Ability struct {
 	ID int 					`json:"id"`
 	Name string 			`json:"name"`
@@ -28,12 +29,12 @@ func (ability *Ability) Get() *Ability {
 func (ability *Ability) String() string {
 	str := ""
 	str += fmt.Sprintf("Ability: %s\r\n", strings.Title(ability.Name))
+	if ability.Description != "" {
+		str += fmt.Sprintf("  Description: %s\r\n", ability.Description)
+	}
 	str += fmt.Sprintf("  URL: %s\r\n", ability.URL)
 	if ability.ID != 0 {
 		str += fmt.Sprintf("  ID: %d\r\n", ability.ID)
-	}
-	if ability.Description != "" {
-		str += fmt.Sprintf("  Description: %s\r\n", ability.Description)
 	}
 	return str
 }

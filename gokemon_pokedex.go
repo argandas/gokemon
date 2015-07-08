@@ -6,9 +6,11 @@ import (
 	"net/http"
 )
 
+// A Pokedex returns the names and URL for all pokemon
 type Pokedex struct {
-	Name string
-	Pokemons []Pokemon `json:"pokemon"`
+	Name string 			`json:"name"`
+	URL string 				`json:"resource_uri"`
+	Pokemon []*Pokemon		`json:"pokemon"`
 }
 
 // Return a Pokedex with Pokemon Basic Information (Name and API's URL)
@@ -25,6 +27,12 @@ func GetPokedex() (*Pokedex, error) {
 	err = json.NewDecoder(resp.Body).Decode(pokedex) 
 	if err != nil {
 		return nil, err
+	}
+	// Fix for missing "/" on pokemon URIs
+	for index, pokemon := range pokedex.Pokemon {
+		if pokemon.URL[:1] != "/" {
+			pokedex.Pokemon[index].URL = "/" + pokemon.URL
+		}
 	}
 	return pokedex, nil
 }

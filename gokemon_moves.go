@@ -8,11 +8,13 @@ import (
 	"strings"
 )
 
+// A Move resource represent a single move
 type Move struct {
 	ID int 					`json:"id"`
 	Name string 			`json:"name"`
 	Description string 		`json:"description"`
 	URL string 				`json:"resource_uri"`
+	Category string 		`json:"category"`
 	Power int 				`json:"power"`
 	PP int 					`json:"pp"`
 	Accuracy int 			`json:"accuracy"`

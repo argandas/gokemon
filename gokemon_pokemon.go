@@ -8,13 +8,16 @@ import (
 	"strings"
 )
 
+// A Pokemon resource represent a single Pokémon
 type Pokemon struct {
-	Name string 			`json:"name"`
-	ID int 					`json:"national_id"`
-	URL string 				`json:"resource_uri"`
-	Abilities []*Ability 	`json:"abilities"`
-	Types []*Type 			`json:"types"`
-	Moves []*Move 			`json:"moves"`
+	Name string 				`json:"name"`
+	ID int 						`json:"national_id"`
+	URL string 					`json:"resource_uri"`
+	Descriptions []*Description `json:"descriptions"`
+	Abilities []*Ability 		`json:"abilities"`
+	Types []*Type 				`json:"types"`
+	Moves []*Move 				`json:"moves"`
+	Eggs []*Egg 				`json:"egg_groups"`
 }
 
 // Get detailed pokemon data 
@@ -30,17 +33,13 @@ func (pokemon *Pokemon) Get() *Pokemon {
 func (poke Pokemon) String() string {
 	str := ""
 	str += fmt.Sprintf("Pokemon: %s\r\n", strings.Title(poke.Name))
+	str += fmt.Sprintf("  URL: %s\r\n", poke.URL)
 	if poke.ID != 0 {
 		str += fmt.Sprintf("  ID: %d\r\n", poke.ID)
 	}
-	str += fmt.Sprintf("  URL: %s\r\n", poke.URL)
-	str += ability2string(poke.Abilities, "Abilities")
 	str += type2string(poke.Types, "Types")
-	str += move2int(poke.Moves, "Moves")
 	return str
 }
-
-
 
 // Return a Pokemon with Basic Information using pokemon name
 func GetPokemon(name string) (*Pokemon, error) {

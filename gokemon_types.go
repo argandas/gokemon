@@ -8,12 +8,14 @@ import (
 	"strings"
 )
 
+// A Type resource represent a single Pokémon type
 type Type struct {
 	ID int 					`json:"id"`
 	Name string 			`json:"name"`
 	URL string 				`json:"resource_uri"`
 	NoEffect []*Type 		`json:"no_effect"`
 	Ineffective []*Type 	`json:"ineffective"`
+	Resistance []*Type 		`json:"resistance"`
 	SuperEffective []*Type 	`json:"super_effective"`
 	Weakness []*Type 		`json:"weakness"`
 }
@@ -31,14 +33,15 @@ func (t *Type) Get() *Type {
 func (t *Type) String() string {
 	str := ""
 	str += fmt.Sprintf("Type: %s\r\n", strings.Title(t.Name))
+	str += fmt.Sprintf("  URL: %s\r\n", t.URL)
 	if t.ID != 0 {
 		str += fmt.Sprintf("  ID: %d\r\n", t.ID)
 	}
-	str += fmt.Sprintf("  URL: %s\r\n", t.URL)
 	str += type2string(t.NoEffect, "No-Effect")
 	str += type2string(t.Ineffective, "Ineffective")
-	str += type2string(t.Weakness, "Weakness")
 	str += type2string(t.SuperEffective, "Super-Effective")
+	str += type2string(t.Resistance, "Resistance")
+	str += type2string(t.Weakness, "Weakness")
 	return str
 }
 

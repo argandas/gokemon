@@ -1,5 +1,7 @@
-# gokemon
+# Gokemon
 A Golang wrapper for [PokeAPI](http://pokeapi.co/)
+
+[![GoDoc](http://godoc.org/github.com/argandas/gokemon?status.svg)](http://godoc.org/github.com/argandas/gokemon)
 
 ## Installation
 

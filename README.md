@@ -111,6 +111,16 @@ func main() {
 	fmt.Println(desc)
 ```
 
+### Sprites
+```go
+	// Get Sprite
+	sprite, err := gokemon.GetSprite(77)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(sprite)
+```
+
 ### Games
 ```go
 	// Get Game

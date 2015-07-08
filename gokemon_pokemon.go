@@ -18,6 +18,7 @@ type Pokemon struct {
 	Types []*Type 				`json:"types"`
 	Moves []*Move 				`json:"moves"`
 	Eggs []*Egg 				`json:"egg_groups"`
+	Sprites []*Sprite 			`json:"sprites"`
 }
 
 // Get detailed pokemon data 

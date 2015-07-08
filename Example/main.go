@@ -72,4 +72,11 @@ func main() {
 	}
 	fmt.Println(yellow)
 
+	// Get Sprite
+	sprite, err := gokemon.GetSprite(77)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(sprite)
+
 }

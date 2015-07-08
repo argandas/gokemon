@@ -38,6 +38,9 @@ func (desc *Description) String() string {
 	if desc.Description != "" {
 		str += fmt.Sprintf("  Description: %s\r\n", desc.Description)
 	}
+	if desc.Pokemon != nil {
+		str += fmt.Sprintf("  Pokemon: %s\r\n", desc.Pokemon.Name)
+	}
 	return str
 }
 

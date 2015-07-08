@@ -3,22 +3,22 @@ package gokemon
 import (
 	"encoding/json"
 	"errors"
-	"net/http"
 	"fmt"
+	"net/http"
 	"strings"
 )
 
 // A Description resource represent a single Pokémon pokédex description
 type Description struct {
-	ID int 					`json:"id"`
-	Name string 			`json:"name"`
-	Description string 		`json:"description"`
-	URL string 				`json:"resource_uri"`
-	Pokemon *Pokemon 		`json:"pokemon"`
-	Games []*Game 			`json:"games"`
+	ID          int      `json:"id"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	URL         string   `json:"resource_uri"`
+	Pokemon     *Pokemon `json:"pokemon"`
+	Games       []*Game  `json:"games"`
 }
 
-// Get detailed description data 
+// Get detailed description data
 func (desc *Description) Get() *Description {
 	temp, err := getDescription(API_URL + desc.URL)
 	if err != nil {
@@ -46,7 +46,7 @@ func (desc *Description) String() string {
 
 // Return a Description with Basic Information using description ID
 func GetDescription(id int) (*Description, error) {
-	url := fmt.Sprintf(API_URL + "/api/v1/description/%d/", id)
+	url := fmt.Sprintf(API_URL+"/api/v1/description/%d/", id)
 	return getDescription(url)
 }
 
@@ -58,10 +58,10 @@ func getDescription(url string) (*Description, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(resp.Status) 
+		return nil, errors.New(resp.Status)
 	}
-	desc := new(Description)	
-	err = json.NewDecoder(resp.Body).Decode(desc) 
+	desc := new(Description)
+	err = json.NewDecoder(resp.Body).Decode(desc)
 	if err != nil {
 		return nil, err
 	}
@@ -75,6 +75,6 @@ func description2string(data []*Description, title string) string {
 			items = append(items, item.Name)
 		}
 		return fmt.Sprintf("  %s: %s\r\n", title, strings.Join(items, ", "))
-	} 
+	}
 	return ""
 }

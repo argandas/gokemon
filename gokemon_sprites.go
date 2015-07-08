@@ -3,21 +3,21 @@ package gokemon
 import (
 	"encoding/json"
 	"errors"
-	"net/http"
 	"fmt"
+	"net/http"
 	"strings"
 )
 
 // A Sprite resource represent a single Pokémon Sprite
 type Sprite struct {
-	ID int 				`json:"id"`
-	Name string 		`json:"name"`
-	Image string 		`json:"image"`
-	URL string 			`json:"resource_uri"`
-	Pokemon *Pokemon 	`json:"pokemon"`
+	ID      int      `json:"id"`
+	Name    string   `json:"name"`
+	Image   string   `json:"image"`
+	URL     string   `json:"resource_uri"`
+	Pokemon *Pokemon `json:"pokemon"`
 }
 
-// Get detailed sprite data 
+// Get detailed sprite data
 func (sprite *Sprite) Get() *Sprite {
 	temp, err := getSprite(API_URL + sprite.URL)
 	if err != nil {
@@ -45,7 +45,7 @@ func (sprite *Sprite) String() string {
 
 // Return a Sprite with Basic Information using sprite ID
 func GetSprite(id int) (*Sprite, error) {
-	url := fmt.Sprintf(API_URL + "/api/v1/sprite/%d/", id)
+	url := fmt.Sprintf(API_URL+"/api/v1/sprite/%d/", id)
 	return getSprite(url)
 }
 
@@ -57,10 +57,10 @@ func getSprite(url string) (*Sprite, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(resp.Status) 
+		return nil, errors.New(resp.Status)
 	}
-	sprite := new(Sprite)	
-	err = json.NewDecoder(resp.Body).Decode(sprite) 
+	sprite := new(Sprite)
+	err = json.NewDecoder(resp.Body).Decode(sprite)
 	if err != nil {
 		return nil, err
 	}
@@ -74,6 +74,6 @@ func sprite2string(data []*Sprite, title string) string {
 			items = append(items, item.Name)
 		}
 		return fmt.Sprintf("  %s: %s\r\n", title, strings.Join(items, ", "))
-	} 
+	}
 	return ""
 }

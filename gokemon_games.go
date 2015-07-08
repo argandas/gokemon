@@ -3,21 +3,21 @@ package gokemon
 import (
 	"encoding/json"
 	"errors"
-	"net/http"
 	"fmt"
+	"net/http"
 	"strings"
 )
 
 // A Game resource represent a single Pokémon game
 type Game struct {
-	ID int 				`json:"id"`
-	Name string 		`json:"name"`
-	URL string 			`json:"resource_uri"`
-	Release int 		`json:"release_year"`
-	Generation int 		`json:"generation"`
+	ID         int    `json:"id"`
+	Name       string `json:"name"`
+	URL        string `json:"resource_uri"`
+	Release    int    `json:"release_year"`
+	Generation int    `json:"generation"`
 }
 
-// Get detailed game data 
+// Get detailed game data
 func (game *Game) Get() *Game {
 	temp, err := getGame(API_URL + game.URL)
 	if err != nil {
@@ -45,7 +45,7 @@ func (game *Game) String() string {
 
 // Return a Game with Basic Information using game ID
 func GetGame(id int) (*Game, error) {
-	url := fmt.Sprintf(API_URL + "/api/v1/game/%d/", id)
+	url := fmt.Sprintf(API_URL+"/api/v1/game/%d/", id)
 	return getGame(url)
 }
 
@@ -57,10 +57,10 @@ func getGame(url string) (*Game, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(resp.Status) 
+		return nil, errors.New(resp.Status)
 	}
-	game := new(Game)	
-	err = json.NewDecoder(resp.Body).Decode(game) 
+	game := new(Game)
+	err = json.NewDecoder(resp.Body).Decode(game)
 	if err != nil {
 		return nil, err
 	}
@@ -74,6 +74,6 @@ func game2string(data []*Game, title string) string {
 			items = append(items, item.Name)
 		}
 		return fmt.Sprintf("  %s: %s\r\n", title, strings.Join(items, ", "))
-	} 
+	}
 	return ""
 }

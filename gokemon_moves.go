@@ -3,24 +3,24 @@ package gokemon
 import (
 	"encoding/json"
 	"errors"
-	"net/http"
 	"fmt"
+	"net/http"
 	"strings"
 )
 
 // A Move resource represent a single move
 type Move struct {
-	ID int 					`json:"id"`
-	Name string 			`json:"name"`
-	Description string 		`json:"description"`
-	URL string 				`json:"resource_uri"`
-	Category string 		`json:"category"`
-	Power int 				`json:"power"`
-	PP int 					`json:"pp"`
-	Accuracy int 			`json:"accuracy"`
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	URL         string `json:"resource_uri"`
+	Category    string `json:"category"`
+	Power       int    `json:"power"`
+	PP          int    `json:"pp"`
+	Accuracy    int    `json:"accuracy"`
 }
 
-// Get detailed move data 
+// Get detailed move data
 func (move *Move) Get() *Move {
 	temp, err := getMove(API_URL + move.URL)
 	if err != nil {
@@ -51,7 +51,7 @@ func (move *Move) String() string {
 
 // Return a Move with Basic Information using move ID
 func GetMove(id int) (*Move, error) {
-	url := fmt.Sprintf(API_URL + "/api/v1/move/%d/", id)
+	url := fmt.Sprintf(API_URL+"/api/v1/move/%d/", id)
 	return getMove(url)
 }
 
@@ -63,10 +63,10 @@ func getMove(url string) (*Move, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(resp.Status) 
+		return nil, errors.New(resp.Status)
 	}
-	move := new(Move)	
-	err = json.NewDecoder(resp.Body).Decode(move) 
+	move := new(Move)
+	err = json.NewDecoder(resp.Body).Decode(move)
 	if err != nil {
 		return nil, err
 	}
@@ -80,13 +80,13 @@ func move2string(data []*Move, title string) string {
 			items = append(items, item.Name)
 		}
 		return fmt.Sprintf("  %s: %s\r\n", title, strings.Join(items, ", "))
-	} 
+	}
 	return ""
 }
 
 func move2int(data []*Move, title string) string {
 	if len(data) > 0 {
 		return fmt.Sprintf("  %s: [%d]\r\n", title, len(data))
-	} 
+	}
 	return ""
 }

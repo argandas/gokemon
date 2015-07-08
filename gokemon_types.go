@@ -3,24 +3,24 @@ package gokemon
 import (
 	"encoding/json"
 	"errors"
-	"net/http"
 	"fmt"
+	"net/http"
 	"strings"
 )
 
 // A Type resource represent a single Pokémon type
 type Type struct {
-	ID int 					`json:"id"`
-	Name string 			`json:"name"`
-	URL string 				`json:"resource_uri"`
-	NoEffect []*Type 		`json:"no_effect"`
-	Ineffective []*Type 	`json:"ineffective"`
-	Resistance []*Type 		`json:"resistance"`
-	SuperEffective []*Type 	`json:"super_effective"`
-	Weakness []*Type 		`json:"weakness"`
+	ID             int     `json:"id"`
+	Name           string  `json:"name"`
+	URL            string  `json:"resource_uri"`
+	NoEffect       []*Type `json:"no_effect"`
+	Ineffective    []*Type `json:"ineffective"`
+	Resistance     []*Type `json:"resistance"`
+	SuperEffective []*Type `json:"super_effective"`
+	Weakness       []*Type `json:"weakness"`
 }
 
-// Get detailed type data 
+// Get detailed type data
 func (t *Type) Get() *Type {
 	temp, err := getType(API_URL + t.URL)
 	if err != nil {
@@ -47,7 +47,7 @@ func (t *Type) String() string {
 
 // Return a type with Basic Information using type ID
 func GetType(id int) (*Type, error) {
-	url := fmt.Sprintf(API_URL + "/api/v1/type/%d/", id)
+	url := fmt.Sprintf(API_URL+"/api/v1/type/%d/", id)
 	return getType(url)
 }
 
@@ -59,10 +59,10 @@ func getType(url string) (*Type, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(resp.Status) 
+		return nil, errors.New(resp.Status)
 	}
-	t := new(Type)	
-	err = json.NewDecoder(resp.Body).Decode(t) 
+	t := new(Type)
+	err = json.NewDecoder(resp.Body).Decode(t)
 	if err != nil {
 		return nil, err
 	}
@@ -76,6 +76,6 @@ func type2string(data []*Type, title string) string {
 			items = append(items, item.Name)
 		}
 		return fmt.Sprintf("  %s: %s\r\n", title, strings.Join(items, ", "))
-	} 
+	}
 	return ""
 }

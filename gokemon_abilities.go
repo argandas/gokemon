@@ -3,20 +3,20 @@ package gokemon
 import (
 	"encoding/json"
 	"errors"
-	"net/http"
 	"fmt"
+	"net/http"
 	"strings"
 )
 
 // An Ability resource represent a single Pokémon ability
 type Ability struct {
-	ID int 					`json:"id"`
-	Name string 			`json:"name"`
-	Description string 		`json:"description"`
-	URL string 				`json:"resource_uri"`
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	URL         string `json:"resource_uri"`
 }
 
-// Get detailed ability data 
+// Get detailed ability data
 func (ability *Ability) Get() *Ability {
 	temp, err := getAbility(API_URL + ability.URL)
 	if err != nil {
@@ -41,7 +41,7 @@ func (ability *Ability) String() string {
 
 // Return a Ability with Basic Information using ability ID
 func GetAbility(id int) (*Ability, error) {
-	url := fmt.Sprintf(API_URL + "/api/v1/ability/%d/", id)
+	url := fmt.Sprintf(API_URL+"/api/v1/ability/%d/", id)
 	return getAbility(url)
 }
 
@@ -53,10 +53,10 @@ func getAbility(url string) (*Ability, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(resp.Status) 
+		return nil, errors.New(resp.Status)
 	}
-	ability := new(Ability)	
-	err = json.NewDecoder(resp.Body).Decode(ability) 
+	ability := new(Ability)
+	err = json.NewDecoder(resp.Body).Decode(ability)
 	if err != nil {
 		return nil, err
 	}
@@ -70,6 +70,6 @@ func ability2string(data []*Ability, title string) string {
 			items = append(items, item.Name)
 		}
 		return fmt.Sprintf("  %s: %s\r\n", title, strings.Join(items, ", "))
-	} 
+	}
 	return ""
 }

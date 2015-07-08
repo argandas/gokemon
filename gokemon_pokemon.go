@@ -3,25 +3,25 @@ package gokemon
 import (
 	"encoding/json"
 	"errors"
-	"net/http"
 	"fmt"
+	"net/http"
 	"strings"
 )
 
 // A Pokemon resource represent a single Pokémon
 type Pokemon struct {
-	Name string 				`json:"name"`
-	ID int 						`json:"national_id"`
-	URL string 					`json:"resource_uri"`
+	Name         string         `json:"name"`
+	ID           int            `json:"national_id"`
+	URL          string         `json:"resource_uri"`
 	Descriptions []*Description `json:"descriptions"`
-	Abilities []*Ability 		`json:"abilities"`
-	Types []*Type 				`json:"types"`
-	Moves []*Move 				`json:"moves"`
-	Eggs []*Egg 				`json:"egg_groups"`
-	Sprites []*Sprite 			`json:"sprites"`
+	Abilities    []*Ability     `json:"abilities"`
+	Types        []*Type        `json:"types"`
+	Moves        []*Move        `json:"moves"`
+	Eggs         []*Egg         `json:"egg_groups"`
+	Sprites      []*Sprite      `json:"sprites"`
 }
 
-// Get detailed pokemon data 
+// Get detailed pokemon data
 func (pokemon *Pokemon) Get() *Pokemon {
 	temp, err := getPokemon(API_URL + pokemon.URL)
 	if err != nil {
@@ -45,13 +45,13 @@ func (poke Pokemon) String() string {
 // Return a Pokemon with Basic Information using pokemon name
 func GetPokemon(name string) (*Pokemon, error) {
 	name = strings.ToLower(name)
-	url := fmt.Sprintf(API_URL + "/api/v1/pokemon/%s/", name)
+	url := fmt.Sprintf(API_URL+"/api/v1/pokemon/%s/", name)
 	return getPokemon(url)
 }
 
 // Return a Pokemon with Basic Information using pokemon ID
 func GetPokemonByID(id int) (*Pokemon, error) {
-	url := fmt.Sprintf(API_URL + "/api/v1/pokemon/%d/", id)
+	url := fmt.Sprintf(API_URL+"/api/v1/pokemon/%d/", id)
 	return getPokemon(url)
 }
 
@@ -63,10 +63,10 @@ func getPokemon(url string) (*Pokemon, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(resp.Status) 
+		return nil, errors.New(resp.Status)
 	}
-	pokemon := new(Pokemon)	
-	err = json.NewDecoder(resp.Body).Decode(pokemon) 
+	pokemon := new(Pokemon)
+	err = json.NewDecoder(resp.Body).Decode(pokemon)
 	if err != nil {
 		return nil, err
 	}

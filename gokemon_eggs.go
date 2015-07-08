@@ -3,20 +3,20 @@ package gokemon
 import (
 	"encoding/json"
 	"errors"
-	"net/http"
 	"fmt"
+	"net/http"
 	"strings"
 )
 
 // An Egg group resource represent a single Pokémon egg group
 type Egg struct {
-	ID int 					`json:"id"`
-	Name string 			`json:"name"`
-	URL string 				`json:"resource_uri"`
-	Pokemon []*Pokemon		`json:"pokemon"`
+	ID      int        `json:"id"`
+	Name    string     `json:"name"`
+	URL     string     `json:"resource_uri"`
+	Pokemon []*Pokemon `json:"pokemon"`
 }
 
-// Get detailed egg data 
+// Get detailed egg data
 func (egg *Egg) Get() *Egg {
 	temp, err := getEgg(API_URL + egg.URL)
 	if err != nil {
@@ -38,7 +38,7 @@ func (egg *Egg) String() string {
 
 // Return a Egg with Basic Information using egg ID
 func GetEgg(id int) (*Egg, error) {
-	url := fmt.Sprintf(API_URL + "/api/v1/egg/%d/", id)
+	url := fmt.Sprintf(API_URL+"/api/v1/egg/%d/", id)
 	return getEgg(url)
 }
 
@@ -50,10 +50,10 @@ func getEgg(url string) (*Egg, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(resp.Status) 
+		return nil, errors.New(resp.Status)
 	}
-	egg := new(Egg)	
-	err = json.NewDecoder(resp.Body).Decode(egg) 
+	egg := new(Egg)
+	err = json.NewDecoder(resp.Body).Decode(egg)
 	if err != nil {
 		return nil, err
 	}
@@ -67,6 +67,6 @@ func egg2string(data []*Egg, title string) string {
 			items = append(items, item.Name)
 		}
 		return fmt.Sprintf("  %s: %s\r\n", title, strings.Join(items, ", "))
-	} 
+	}
 	return ""
 }
